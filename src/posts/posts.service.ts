@@ -18,19 +18,25 @@ export class PostsService {
     return post;
   }
 
-  findAll() {
-    return this.postsRepository.find();
+  async findAll() {
+    return await this.postsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: number) {
+    return await this.postsRepository.findOneBy({ id });
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    const post = await this.postsRepository.findOneBy({ id });
+    post.title = updatePostDto.title;
+    post.text = updatePostDto.text;
+    post.genre = updatePostDto.genre;
+    post.isPrivate = updatePostDto.isPrivate;
+    await this.entitiyManager.save(post);
+    return post;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async remove(id: number) {
+    await this.postsRepository.delete(id);
   }
 }
