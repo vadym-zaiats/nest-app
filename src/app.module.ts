@@ -3,21 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { DbModule } from './db/db.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entities/user.entity';
-import { Post } from './posts/entities/post.entity';
-import { UsersController } from './users/users.controller';
-import { PostsController } from './posts/posts.controller';
-import { PostsService } from './posts/posts.service';
-import { UsersService } from './users/users.service';
+import { PostsModule } from './posts/posts.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DbModule,
-    TypeOrmModule.forFeature([User, Post]),
+    PostsModule,
+    UsersModule,
   ],
-  controllers: [AppController, UsersController, PostsController],
-  providers: [AppService, UsersService, PostsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
